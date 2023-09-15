@@ -1,11 +1,11 @@
+const Cattle = require('../models/cattle');
+
 exports.findCattles = (req, res, next) => {
-    res.json([{
-        name: 'Belinha',
-        age: 5,
-    }, {
-        name: 'Katarina',
-        age: 4,
-    }])
+    Cattle.findAll()
+    .then(cattles => {
+        res.json(cattles);
+    })
+    .catch(err => console.log(err))
 }
 
 exports.findCattle = (req, res, next) => {
