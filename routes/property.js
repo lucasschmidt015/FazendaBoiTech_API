@@ -9,8 +9,6 @@ router.get('/find-cattle/:cattleId', propertyController.findCattle);
 
 router.post('/add-cattle', propertyController.addCattle);
 
-router.get('/edit-cattle/:cattleId', propertyController.getEditCattle);
-
 router.post('/edit-cattle', propertyController.postEditCattle);
 
 router.post('/delete-cattle', propertyController.deleteCattle);
