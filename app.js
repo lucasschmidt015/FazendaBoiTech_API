@@ -38,3 +38,5 @@ sequelize.sync({ force: false })
 })
 .catch(err => console.log(err));
 
+
+//Commit of test on ubuntu
