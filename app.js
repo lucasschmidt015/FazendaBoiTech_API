@@ -4,7 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 //routes
-const propertyRoute = require('./routes/property');
+const cattleRoute = require('./routes/cattle');
+const vaccineRoute = require('./routes/vaccine');
 
 //controllers
 const errorController = require('./controllers/error');
@@ -12,6 +13,7 @@ const errorController = require('./controllers/error');
 //bd
 const sequelize = require('./util/database');
 const Cattle = require('./models/cattle');
+const Vaccine = require('./models/vaccine');
 
 const app = express();
 
@@ -25,7 +27,9 @@ app.get('/', (req, res, next) => {
     })
 })
 
-app.use(propertyRoute);
+app.use(cattleRoute);
+
+app.use(vaccineRoute);
 
 //Not found route
 app.use(errorController.get404);
@@ -37,6 +41,3 @@ sequelize.sync({ force: false })
     });
 })
 .catch(err => console.log(err));
-
-
-//Commit of test on ubuntu
