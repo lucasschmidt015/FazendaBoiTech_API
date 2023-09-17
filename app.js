@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 //routes
 const cattleRoute = require('./routes/cattle');
 const vaccineRoute = require('./routes/vaccine');
+const customerRoute = require('./routes/customer');
 
 //controllers
 const errorController = require('./controllers/error');
@@ -14,6 +15,7 @@ const errorController = require('./controllers/error');
 const sequelize = require('./util/database');
 const Cattle = require('./models/cattle');
 const Vaccine = require('./models/vaccine');
+const Customer = require('./models/customer');
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.get('/', (req, res, next) => {
 app.use(cattleRoute);
 
 app.use(vaccineRoute);
+
+app.use(customerRoute);
 
 //Not found route
 app.use(errorController.get404);
