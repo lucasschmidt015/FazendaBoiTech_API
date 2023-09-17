@@ -16,6 +16,7 @@ const sequelize = require('./util/database');
 const Cattle = require('./models/cattle');
 const Vaccine = require('./models/vaccine');
 const Customer = require('./models/customer');
+const lossControl = require('./models/loss-control');
 
 const app = express();
 
@@ -23,6 +24,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 
+
+//****************************Routes*******************************
 app.get('/', (req, res, next) => {
     res.json({
         page: 'In development'
@@ -38,6 +41,18 @@ app.use(customerRoute);
 //Not found route
 app.use(errorController.get404);
 
+//*****************************************************************
+
+
+//***************************Associetions**************************
+
+lossControl.belongsTo(Cattle);
+Cattle.hasMany(lossControl);
+
+//*****************************************************************
+
+
+// sequelize.sync()
 sequelize.sync({ force: false })
 .then(() => {
     app.listen(3000, () => {
