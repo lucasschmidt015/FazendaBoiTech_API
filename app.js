@@ -47,7 +47,6 @@ app.use(errorController.get404);
 //***************************Associetions**************************
 
 lossControl.belongsTo(Cattle);
-Cattle.hasMany(lossControl);
 
 //*****************************************************************
 

@@ -1,4 +1,5 @@
 const Cattle = require('../models/cattle');
+const lossControl = require('../models/loss-control');
 
 exports.findCattles = (req, res, next) => {
     Cattle.findAll()
@@ -75,6 +76,28 @@ exports.deleteCattle = (req, res, next) => {
         res.json({
             success: success
         })
+    })
+    .catch(err => console.log(err));
+}
+
+exports.findLostCattle = (req, res, next) => {
+    lossControl.findAll()
+    .then(losts => {
+        console.log(losts.cattle)
+    })
+    .catch(err => console.log(err));
+}
+
+exports.addLostCattle = (req, res, next) => {
+    const cattleId = req.body.cattleId;
+    const observation = req.body.observation;
+
+    lossControl.create({
+        cattleId: cattleId,
+        observation: observation
+    })
+    .then(success => {
+        res.json(success);
     })
     .catch(err => console.log(err));
 }
