@@ -13,7 +13,7 @@ router.post('/edit-cattle', cattleController.postEditCattle);
 
 router.post('/delete-cattle', cattleController.deleteCattle);
 
-router.get('/lost-cattle/:cattleId');
+router.get('/lost-cattle/:cattleId', cattleController.findLostCattleById);
 
 router.get('/lost-cattle', cattleController.findLostCattle);
 

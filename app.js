@@ -17,6 +17,7 @@ const Cattle = require('./models/cattle');
 const Vaccine = require('./models/vaccine');
 const Customer = require('./models/customer');
 const lossControl = require('./models/loss-control');
+const weightControl = require('./models/weight-control');
 
 const app = express();
 
@@ -46,7 +47,11 @@ app.use(errorController.get404);
 
 //***************************Associetions**************************
 
+Cattle.hasOne(lossControl);
 lossControl.belongsTo(Cattle);
+
+Cattle.hasMany(weightControl);
+weightControl.belongsTo(Cattle);
 
 //*****************************************************************
 

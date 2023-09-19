@@ -81,9 +81,30 @@ exports.deleteCattle = (req, res, next) => {
 }
 
 exports.findLostCattle = (req, res, next) => {
-    lossControl.findAll()
-    .then(losts => {
-        console.log(losts.cattle)
+    Cattle.findAll({
+        include: [{
+            model:lossControl,
+            required: true,
+        }],
+    })
+    .then(data => {
+        res.json(data);
+    })
+    .catch(err => console.log(err));
+}
+
+exports.findLostCattleById = (req, res, next) => {
+    const cattleId = req.params.cattleId;
+
+    Cattle.findOne({
+        where: { id: cattleId },
+        include: [{
+            model: lossControl,
+            required: true,
+        }],
+    })
+    .then(data => {
+        res.json(data);
     })
     .catch(err => console.log(err));
 }
@@ -92,12 +113,25 @@ exports.addLostCattle = (req, res, next) => {
     const cattleId = req.body.cattleId;
     const observation = req.body.observation;
 
-    lossControl.create({
-        cattleId: cattleId,
-        observation: observation
+    Cattle.findByPk(cattleId)
+    .then(cattle => {
+
+        const lossControlTemp = lossControl.build({ observation: observation });
+
+        return cattle.setLossControl(lossControlTemp);
     })
     .then(success => {
         res.json(success);
     })
     .catch(err => console.log(err));
 }
+
+
+// lossControl.create({
+    //     cattleId: cattleId,
+    //     observation: observation
+    // })
+    // .then(success => {
+    //     res.json(success);
+    // })
+    // .catch(err => console.log(err));
