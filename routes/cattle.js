@@ -19,4 +19,10 @@ router.get('/lost-cattle', cattleController.findLostCattle);
 
 router.post('/add-lost-cattle', cattleController.addLostCattle);
 
+router.get('/weight-cattle/:cattleId', cattleController.findWeightControlById);
+
+router.get('/weight-cattle', cattleController.findWeightControl);
+
+router.post('/add-weight-cattle', cattleController.addWeightControl);
+
 module.exports = router;

@@ -5,6 +5,10 @@ const weightControl = sequelize.define('weightControl',{
     weight: {
         type: Sequelize.DOUBLE,
         allowNull: false
+    },
+    date: {
+        type: Sequelize.DATE,
+        allowNull: false,
     }
 })
 

@@ -1,5 +1,6 @@
 const Cattle = require('../models/cattle');
 const lossControl = require('../models/loss-control');
+const WeightControl = require('../models/weight-control');
 
 exports.findCattles = (req, res, next) => {
     Cattle.findAll()
@@ -126,12 +127,48 @@ exports.addLostCattle = (req, res, next) => {
     .catch(err => console.log(err));
 }
 
+exports.findWeightControl = (req, res, next) => {
 
-// lossControl.create({
-    //     cattleId: cattleId,
-    //     observation: observation
-    // })
-    // .then(success => {
-    //     res.json(success);
-    // })
-    // .catch(err => console.log(err));
+    Cattle.findAll({
+        include: [{
+            model: WeightControl,
+            required: true,
+        }]
+    })
+    .then(cattle => {
+        res.json(cattle);
+    })
+    .catch(err => console.log(err));
+}
+
+exports.findWeightControlById = (req, res, next) => {
+    const cattleId = req.params.cattleId;
+
+    Cattle.findOne({
+        where: { id: cattleId },
+        include: [{
+            model: WeightControl,
+            required: true,
+        }]
+    })
+    .then(data => {
+        res.json(data);
+    })
+    .catch(err => console.log(err));
+}
+
+exports.addWeightControl = (req, res, next) => { 
+    const cattleId = req.body.cattleId;
+    const weight = parseFloat(req.body.weight);
+    const date = new Date(req.body.date);
+    
+
+    Cattle.findByPk(cattleId)
+    .then(cattle => {
+        return WeightControl.create({ weight: weight, cattleId: cattleId, date: date });
+    })
+    .then(success => {
+        res.json(success);
+    })
+    .catch(err => console.log(err));
+}

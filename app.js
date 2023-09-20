@@ -18,6 +18,7 @@ const Vaccine = require('./models/vaccine');
 const Customer = require('./models/customer');
 const lossControl = require('./models/loss-control');
 const weightControl = require('./models/weight-control');
+const vaccineApplication = require('./models/vaccine-application');
 
 const app = express();
 
@@ -53,10 +54,14 @@ lossControl.belongsTo(Cattle);
 Cattle.hasMany(weightControl);
 weightControl.belongsTo(Cattle);
 
+Cattle.hasMany(vaccineApplication);
+vaccineApplication.belongsTo(Cattle);
+vaccineApplication.belongsTo(Vaccine);
+
+
 //*****************************************************************
 
 
-// sequelize.sync()
 sequelize.sync({ force: false })
 .then(() => {
     app.listen(3000, () => {
