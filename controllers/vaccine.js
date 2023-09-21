@@ -1,4 +1,6 @@
 const Vaccine = require('../models/vaccine');
+const Cattle = require('../models/cattle');
+const VaccineApplication = require('../models/vaccine-application');
 
 exports.findVaccines = (req, res, next) => {
 
@@ -63,6 +65,68 @@ exports.deleteVaccine = (req, res, next) => {
         res.json({
             success: success
         })
+    })
+    .catch(err => console.log(err));
+}
+
+exports.findVaccineApplication = (req, res, next) => {
+
+    const cattleId = req.query.cattleId;
+    const vaccineId = req.query.vaccineId;
+
+    const retriveVaccineData = req.query.retriveVaccine;
+    const retriveCattleData = req.query.retriveCattle;
+
+    const filterCriteria = {};
+    const includes = [];
+
+    if (cattleId) {
+        filterCriteria.cattleId = cattleId;
+    }
+
+    if (vaccineId) {
+        filterCriteria.vaccineId = vaccineId;
+    }
+
+    if (retriveCattleData) {
+        includes.push({
+            model: Cattle,
+            required: true,
+        });
+    }
+
+    if (retriveVaccineData) {
+        includes.push({
+            model: Vaccine,
+            required: true,
+        });
+    }
+
+
+    VaccineApplication.findAll({
+        where: filterCriteria,
+        include: includes
+    })
+    .then(data =>{
+        res.json(data);
+    })
+    .catch(err => console.log(err));
+}
+
+exports.addVaccineApplication = (req, res, next) => {
+    const cattleId = req.body.cattleId;
+    const vaccineId = req.body.vaccineId;
+    const date = new Date(req.body.date);
+    const observation = req.body.observation;
+
+    VaccineApplication.create({
+        cattleId: cattleId,
+        vaccineId: vaccineId,
+        date: date,
+        observation: observation,
+    })
+    .then(success => {
+        res.json(success);
     })
     .catch(err => console.log(err));
 }

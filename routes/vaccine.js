@@ -14,4 +14,9 @@ router.post('/edit-vaccine', vaccineController.editVaccine);
 
 router.post('/delete-vaccine', vaccineController.deleteVaccine);
 
+router.get('/find-application', vaccineController.findVaccineApplication);
+
+router.post('/add-application', vaccineController.addVaccineApplication);
+
+
 module.exports = router;

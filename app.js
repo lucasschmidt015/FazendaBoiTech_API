@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cattleRoute = require('./routes/cattle');
 const vaccineRoute = require('./routes/vaccine');
 const customerRoute = require('./routes/customer');
+const orderRoute = require('./routes/order');
 
 //controllers
 const errorController = require('./controllers/error');
@@ -19,6 +20,7 @@ const Customer = require('./models/customer');
 const lossControl = require('./models/loss-control');
 const weightControl = require('./models/weight-control');
 const vaccineApplication = require('./models/vaccine-application');
+const Order = require('./models/order');
 
 const app = express();
 
@@ -28,17 +30,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 //****************************Routes*******************************
-app.get('/', (req, res, next) => {
-    res.json({
-        page: 'In development'
-    })
-})
+app.get('/', errorController.get404);
 
 app.use(cattleRoute);
 
 app.use(vaccineRoute);
 
 app.use(customerRoute);
+
+app.use(orderRoute);
 
 //Not found route
 app.use(errorController.get404);
@@ -57,6 +57,10 @@ weightControl.belongsTo(Cattle);
 Cattle.hasMany(vaccineApplication);
 vaccineApplication.belongsTo(Cattle);
 vaccineApplication.belongsTo(Vaccine);
+
+Customer.hasMany(Order)
+Order.belongsTo(Customer);
+Cattle.hasOne(Order);
 
 
 //*****************************************************************
