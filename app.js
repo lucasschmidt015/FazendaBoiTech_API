@@ -2,6 +2,7 @@
 //main things
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 //routes
 const cattleRoute = require('./routes/cattle');
@@ -27,7 +28,7 @@ const app = express();
 //*************************************************************************************************************\\
 
 app.use(bodyParser.urlencoded({extended: false}));
-
+app.use(cors());
 
 //****************************Routes*******************************
 app.get('/', errorController.get404);
